@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Clock, Users, BookOpen, Download, ArrowLeft, Play, FileText, Star } from 'lucide-react';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 const CoursePreview = ({ courseId, onClose }) => {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ const CoursePreview = ({ courseId, onClose }) => {
   const loadCourseDetails = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/api/courses/${courseId}`);
+      const response = await fetch(`${API_BASE_URL}/api/courses/${courseId}`);
       const data = await response.json();
       
       if (data.success) {

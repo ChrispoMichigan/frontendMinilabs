@@ -3,6 +3,8 @@ import { Plus, Search, Filter, Package, BookOpen, DollarSign, Clock } from 'luci
 import AddCourseForm from './AddCourseForm';
 import CoursesList from './CoursesList';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 const CourseManagement = () => {
   const [activeTab, setActiveTab] = useState('list');
   const [courses, setCourses] = useState([]);
@@ -45,7 +47,7 @@ const CourseManagement = () => {
       if (filterDifficulty) params.append('difficulty', filterDifficulty);
       params.append('include_inactive', 'true');
 
-      const response = await fetch(`http://localhost:3001/api/courses?${params}`, {
+      const response = await fetch(`${API_BASE_URL}/api/courses?${params}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -69,7 +71,7 @@ const CourseManagement = () => {
   // Cargar categorías
   const loadCategories = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/courses/categories');
+      const response = await fetch(`${API_BASE_URL}/api/courses/categories`);
       const data = await response.json();
       
       if (data.success) {
@@ -121,7 +123,7 @@ const CourseManagement = () => {
   const handleDeleteCourse = async (courseId) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:3001/api/courses/${courseId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/courses/${courseId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -145,7 +147,7 @@ const CourseManagement = () => {
   const handleToggleStatus = async (courseId, newStatus) => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`http://localhost:3001/api/courses/${courseId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/courses/${courseId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

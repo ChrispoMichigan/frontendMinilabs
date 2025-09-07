@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Save, Upload, X, AlertCircle, Plus, Trash2, FileText, Eye } from 'lucide-react';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 const AddCourseForm = ({ onCourseCreated, categories = [] }) => {
   const [formData, setFormData] = useState({
     title: '',
@@ -93,7 +95,7 @@ const AddCourseForm = ({ onCourseCreated, categories = [] }) => {
       const pdfFormData = new FormData();
       pdfFormData.append('pdf', pdfFile);
 
-      const response = await fetch('http://localhost:3001/api/courses/files/upload-pdf', {
+      const response = await fetch(`${API_BASE_URL}/api/courses/files/upload-pdf`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -127,7 +129,7 @@ const AddCourseForm = ({ onCourseCreated, categories = [] }) => {
       const imageFormData = new FormData();
       imageFormData.append('image', coverImage);
 
-      const response = await fetch('http://localhost:3001/api/courses/files/upload-image', {
+      const response = await fetch(`${API_BASE_URL}/api/courses/files/upload-image`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -175,7 +177,7 @@ const AddCourseForm = ({ onCourseCreated, categories = [] }) => {
           is_active: 1
         };
 
-        const lessonResponse = await fetch('http://localhost:3001/api/courses/lessons', {
+        const lessonResponse = await fetch(`${API_BASE_URL}/api/courses/lessons`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -188,7 +190,7 @@ const AddCourseForm = ({ onCourseCreated, categories = [] }) => {
         
         if (lessonResult.success && pdfData) {
           // Asociar el PDF con la lección
-          await fetch('http://localhost:3001/api/courses/lessons/files', {
+          await fetch(`${API_BASE_URL}/api/courses/lessons/files`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -250,7 +252,7 @@ const AddCourseForm = ({ onCourseCreated, categories = [] }) => {
 
       // Crear el curso
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:3001/api/courses', {
+      const response = await fetch(`${API_BASE_URL}/api/courses`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
