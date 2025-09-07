@@ -1,6 +1,6 @@
 const CourseInfo = ({ course }) => {
   const formatPrice = (price) => {
-    return price > 0 ? `$${parseFloat(price).toFixed(2)} USD` : 'Gratis';
+    return price > 0 ? `$${parseFloat(price).toFixed(2)} MXN` : 'Gratis';
   };
 
   const getDifficultyText = (level) => {
